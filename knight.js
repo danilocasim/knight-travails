@@ -1,3 +1,10 @@
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
 class Board {
   boardMoves = [];
   constructor() {
@@ -48,7 +55,7 @@ class Board {
     }
   }
 
-  knightMoves(start, end, sPath = `[${start}]`, visited = []) {
+  knightMoves(start, end, sPath = `[${start}]`, visited = [], allPath = []) {
     if (!start) return null;
     if (start[0] === end[0] && start[1] === end[1]) return sPath;
 

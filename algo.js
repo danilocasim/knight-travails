@@ -1,43 +1,69 @@
-const adjList = [
-  [1, 6, 8],
-  [0, 4, 6, 9],
-  [4, 6],
-  [4, 5, 8],
-  [1, 2, 3, 5, 9],
-  [3, 4],
-  [0, 1, 2],
-  [8, 9],
-  [0, 3, 7],
-  [1, 4, 7],
-];
+function knightMoves(start, end) {
+  const que = [];
+  que.push(start);
 
-function findShortestPath(
-  start,
-  end,
-  sPath = `${start} => `,
-  visited = [start]
-) {
-  if (start === null) return null;
-  if (start === end) return sPath;
+  while (
+    !(que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+  ) {
+    const current = que[0];
 
-  const vertices = adjList[start];
-  if (vertices.includes(end)) return sPath + " " + end;
+    //FORWARD BIG RIGHT
+    que.push([current[0] + 1, current[1] + 2]);
 
-  for (let i = 0; i < vertices.length; i++) {
-    if (visited.includes(vertices[i])) continue;
-    visited.push(vertices[i]);
+    if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+      return que;
 
-    const path = findShortestPath(
-      vertices[i],
-      end,
-      sPath + vertices[i] + " => ",
-      visited
-    );
+    //FORWARD SMALL RIGHT
+    if (current[0] + 2 <= 7 && current[1] + 1 <= 7)
+      que.push([current[0] + 2, current[1] + 1]);
 
-    if (path === null) continue;
-    return path;
+    if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+      return que;
+
+    //BACKWARD BIG RIGHT
+    if (current[0] + 1 <= 7 && current[1] - 2 >= 0)
+      que.push([current[0] + 1, current[1] - 2]);
+
+    if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+      return que;
+
+    //BACKWARD SMALL RIGHT
+    if (current[0] + 2 <= 7 && current[1] - 1 >= 0)
+      que.push([current[0] + 2, current[1] - 1]);
+
+    if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+      return que;
+
+    //BACKWARD BIG LEFT
+    if (current[0] - 1 >= 0 && current[1] - 2 >= 0)
+      que.push([current[0] - 1, current[1] - 2]);
+
+    if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+      return que;
+
+    //BACKWARD SMALL LEFT
+    if (current[0] - 2 >= 0 && current[1] - 1 >= 0)
+      que.push([current[0] - 2, current[1] - 1]);
+
+    if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+      return que;
+
+    //FORWARD SMALL LEFT
+    if (current[0] - 2 >= 0 && current[1] + 1 <= 7)
+      que.push([current[0] - 2, current[1] + 1]);
+
+    if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+      return que;
+
+    //FORWARD BIG LEFT
+    if (current[0] - 1 >= 0 && current[1] + 2 <= 7)
+      que.push([current[0] - 1, current[1] + 2]);
+
+    if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+      return que;
+
+    que.shift();
   }
 }
 
-console.log(findShortestPath(9, 2)); // returns 0 => 1 =>  4
-// console.log(findShortestPath(3, 7)); // stack overflow
+console.log(knightMoves([0, 0], [3, 3]));
