@@ -8,7 +8,8 @@ function knightMoves(start, end) {
     const current = que[0];
 
     //FORWARD BIG RIGHT
-    que.push([current[0] + 1, current[1] + 2]);
+    if (current[0] + 1 <= 7 && current[1] + 2 <= 7)
+      que.push([current[0] + 1, current[1] + 2]);
 
     if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
       return que;
