@@ -1,57 +1,243 @@
-function knightMoves(start, end, que = []) {
-  if (start[0] < 0 || start[0] > 7 || start[1] < 0 || start[1] > 7) {
-    return;
-  }
+function knightMoves(start, end) {
+  const que = [];
+  const connections = [];
 
   que.push(start);
 
-  const curr = que[que.length - 1];
-  const last = que[0];
+  while (
+    !(que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1])
+  ) {
+    const current = que[0];
 
-  //FORWARD BIG RIGHT
-  if (curr[0] + 1 <= 7 && curr[1] + 2 <= 7)
-    knightMoves([curr[0] + 1, curr[1] + 2], end, que);
+    //FORWARD BIG RIGHT
+    if (current[0] + 1 <= 7 && current[1] + 2 <= 7) {
+      connections.push({
+        current: current,
+        next: [current[0] + 1, current[1] + 2],
+      });
 
-  //FORWARD SMALL RIGHT
-  if (curr[0] + 2 <= 7 && curr[1] + 1 <= 7)
-    knightMoves([curr[0] + 2, curr[1] + 1], end, que);
-
-  //BACKWARD BIG RIGHT
-  if (last[0] + 1 <= 7 && last[1] - 2 >= 0)
-    knightMoves([last[0] + 1, last[1] - 2], end, que);
-
-  //BACKWARD SMALL RIGHT
-  if (last[0] + 2 <= 7 && last[1] - 1 >= 0)
-    knightMoves([last[0] + 2, last[1] - 1], end, que);
-
-  //BACKWARD BIG LEFT
-  if (last[0] - 1 >= 0 && last[1] - 2 >= 0)
-    knightMoves([last[0] - 1, last[1] - 2], end, que);
-
-  //BACKWARD SMALL LEFT
-  if (last[0] - 1 >= 0 && last[1] - 1 >= 0)
-    knightMoves([last[0] - 2, last[1] - 1], end, que);
-
-  //FORWARD SMALL LEFT
-  if (curr[0] - 2 >= 0 && curr[1] + 1 <= 7)
-    knightMoves([curr[0] - 2, curr[1] + 1], end, que);
-
-  //FORWARD BIG LEFT
-  if (curr[0] - 1 >= 0 && curr[1] + 2 <= 7)
-    knightMoves([curr[0] - 1, curr[1] + 2], end, que);
-
-  if (que[que.length - 1][0] === end[0] && que[que.length - 1][1] === end[1]) {
-    const arr = [];
-    for (const q of que) {
-      arr.push(q);
-      if (q[0] === end[0] && q[1] === end[1]) {
-        break;
-      }
+      que.push([current[0] + 1, current[1] + 2]);
     }
 
-    return arr;
-  }
+    if (
+      que[que.length - 1][0] === end[0] &&
+      que[que.length - 1][1] === end[1]
+    ) {
+      const mid = [end];
+      connections.reverse();
 
-  que.pop();
+      let next = end;
+
+      connections.forEach((path) => {
+        if (path.next[0] === next[0] && path.next[1] === next[1]) {
+          next = path.current;
+          mid.push(path.current);
+        }
+      });
+
+      return mid.reverse();
+    }
+
+    //FORWARD SMALL RIGHT
+    if (current[0] + 2 <= 7 && current[1] + 1 <= 7) {
+      connections.push({
+        current: current,
+        next: [current[0] + 2, current[1] + 1],
+      });
+
+      que.push([current[0] + 2, current[1] + 1]);
+    }
+
+    if (
+      que[que.length - 1][0] === end[0] &&
+      que[que.length - 1][1] === end[1]
+    ) {
+      const mid = [end];
+      connections.reverse();
+
+      let next = end;
+
+      connections.forEach((path) => {
+        if (path.next[0] === next[0] && path.next[1] === next[1]) {
+          next = path.current;
+          mid.push(path.current);
+        }
+      });
+      return mid.reverse();
+    }
+
+    // Other moves ommitted for brevity
+
+    //BACKWARD SMALL RIGHT
+    if (current[0] + 2 <= 7 && current[1] - 1 >= 0) {
+      connections.push({
+        current: current,
+        next: [current[0] + 2, current[1] - 1],
+      });
+
+      que.push([current[0] + 2, current[1] - 1]);
+    }
+
+    if (
+      que[que.length - 1][0] === end[0] &&
+      que[que.length - 1][1] === end[1]
+    ) {
+      const mid = [end];
+      connections.reverse();
+
+      let next = end;
+
+      connections.forEach((path) => {
+        if (path.next[0] === next[0] && path.next[1] === next[1]) {
+          next = path.current;
+          mid.push(path.current);
+        }
+      });
+      return mid.reverse();
+    }
+
+    //BACKWARD BIG RIGHT
+    if (current[0] + 1 <= 7 && current[1] - 2 >= 0) {
+      connections.push({
+        current: current,
+        next: [current[0] + 1, current[1] - 2],
+      });
+
+      que.push([current[0] + 1, current[1] - 2]);
+    }
+
+    if (
+      que[que.length - 1][0] === end[0] &&
+      que[que.length - 1][1] === end[1]
+    ) {
+      const mid = [end];
+      connections.reverse();
+
+      let next = end;
+
+      connections.forEach((path) => {
+        if (path.next[0] === next[0] && path.next[1] === next[1]) {
+          next = path.current;
+          mid.push(path.current);
+        }
+      });
+      return mid.reverse();
+    }
+
+    //BACKWARD BIG LEFT
+    if (current[0] - 1 >= 0 && current[1] - 2 >= 0) {
+      connections.push({
+        current: current,
+        next: [current[0] - 1, current[1] - 2],
+      });
+
+      que.push([current[0] - 1, current[1] - 2]);
+    }
+
+    if (
+      que[que.length - 1][0] === end[0] &&
+      que[que.length - 1][1] === end[1]
+    ) {
+      const mid = [end];
+      connections.reverse();
+
+      let next = end;
+
+      connections.forEach((path) => {
+        if (path.next[0] === next[0] && path.next[1] === next[1]) {
+          next = path.current;
+          mid.push(path.current);
+        }
+      });
+      return mid.reverse();
+    }
+
+    //BACKWARD SMALL LEFT
+    if (current[0] - 2 >= 0 && current[1] - 1 >= 0) {
+      connections.push({
+        current: current,
+        next: [current[0] - 2, current[1] - 1],
+      });
+
+      que.push([current[0] - 2, current[1] - 1]);
+    }
+
+    if (
+      que[que.length - 1][0] === end[0] &&
+      que[que.length - 1][1] === end[1]
+    ) {
+      const mid = [end];
+      connections.reverse();
+
+      let next = end;
+
+      connections.forEach((path) => {
+        if (path.next[0] === next[0] && path.next[1] === next[1]) {
+          next = path.current;
+          mid.push(path.current);
+        }
+      });
+      return mid.reverse();
+    }
+
+    //FORWARD SMALL LEFT
+    if (current[0] - 2 >= 0 && current[1] + 1 <= 7) {
+      connections.push({
+        current: current,
+        next: [current[0] - 2, current[1] + 1],
+      });
+
+      que.push([current[0] - 2, current[1] + 1]);
+    }
+
+    if (
+      que[que.length - 1][0] === end[0] &&
+      que[que.length - 1][1] === end[1]
+    ) {
+      const mid = [end];
+      connections.reverse();
+
+      let next = end;
+
+      connections.forEach((path) => {
+        if (path.next[0] === next[0] && path.next[1] === next[1]) {
+          next = path.current;
+          mid.push(path.current);
+        }
+      });
+      return mid.reverse();
+    }
+
+    //FORWARD BIG LEFT
+    if (current[0] - 1 >= 0 && current[1] + 2 <= 7) {
+      connections.push({
+        current: current,
+        next: [current[0] - 1, current[1] + 2],
+      });
+
+      que.push([current[0] - 1, current[1] + 2]);
+    }
+
+    if (
+      que[que.length - 1][0] === end[0] &&
+      que[que.length - 1][1] === end[1]
+    ) {
+      const mid = [end];
+      connections.reverse();
+
+      let next = end;
+
+      connections.forEach((path) => {
+        if (path.next[0] === next[0] && path.next[1] === next[1]) {
+          next = path.current;
+          mid.push(path.current);
+        }
+      });
+      return mid.reverse();
+    }
+
+    que.shift();
+  }
 }
+
 console.log(knightMoves([0, 0], [7, 7]));
